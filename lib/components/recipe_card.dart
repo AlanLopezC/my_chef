@@ -13,7 +13,7 @@ class RecipeCard extends StatelessWidget {
   });
 
   final String image;
-  // ! Overflow title
+  // ! Overflow title and author
   final String title;
   final String author;
   final String rating;

@@ -1,12 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:my_chef/components/middle_nav_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
   // Use SilverAppBar
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Profile'),
+    final screenSize = MediaQuery.of(context).size;
+
+    return SingleChildScrollView(
+      child: Container(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Image.asset(
+                  'assets/images/profile_back.jpg',
+                  width: double.infinity,
+                  height: screenSize.height / 3,
+                  fit: BoxFit.cover,
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(30, 15, 30, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Alan Lopez',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'Newbie Chef',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      MiddleNavBar(titles: []),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              top: screenSize.height / 3 - 46,
+              left: screenSize.width / 2 - 46,
+              child: CircleAvatar(
+                radius: 46,
+                backgroundImage: AssetImage(
+                  'assets/images/profile_pic.jpg',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chef/components/middle_nav_bar.dart';
+import 'package:my_chef/components/middle_nav_bar_display.dart';
 
 class ProfileScreen extends StatelessWidget {
   // Use SilverAppBar
@@ -41,6 +42,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       MiddleNavBar(titles: []),
+                      SizedBox(height: 14),
+                      MiddleNavBarDisplay(),
                     ],
                   ),
                 ),

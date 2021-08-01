@@ -1,6 +1,5 @@
 import 'package:container_tab_indicator/container_tab_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:my_chef/components/middle_nav_bar_display.dart';
 import 'package:my_chef/models/mid_nav_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -59,8 +58,6 @@ class MiddleNavBar extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 14),
-          MiddleNavBarDisplay(),
         ],
       ),
     );

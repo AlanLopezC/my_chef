@@ -11,6 +11,9 @@ class MiddleNavBarDisplay extends StatelessWidget {
       return Container(
         child: Column(
           children: [
+            // Builder(builder: (context) {
+            //   return RecipeTile();
+            // }),
             RecipeTile(),
             RecipeTile(),
             RecipeTile(),

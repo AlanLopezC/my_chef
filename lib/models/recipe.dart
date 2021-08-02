@@ -3,16 +3,25 @@ class Recipe {
     required this.image,
     required this.title,
     required this.description,
-    required this.rating,
     required this.time,
+    required this.categories,
+    required this.ingredients,
+    required this.procedure,
   });
 
   final String image;
   final String title;
   final String description;
-  final String rating;
   final String time;
+  final String ingredients;
+  final String procedure;
+  final List<String> categories;
+
   bool _isLiked = false;
+  //!
+  late String author;
+  //!
+  late String rating;
 
   void toggleLike() {
     _isLiked = !_isLiked;

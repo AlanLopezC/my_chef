@@ -3,19 +3,25 @@ import 'package:flutter/material.dart';
 class MyTextFormField extends StatelessWidget {
   MyTextFormField({
     required this.placeholder,
+    required this.callback,
     this.maxlines = 1,
   });
 
   final String placeholder;
   final int maxlines;
+  final Function callback;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: (String value) {
+        callback(value);
+        // Other way
+        // CreateScreen.of(context).time = value;
+      },
       maxLines: maxlines,
       style: TextStyle(
         fontSize: 14,
-        color: Color(0xffaaaaaa),
       ),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(10),

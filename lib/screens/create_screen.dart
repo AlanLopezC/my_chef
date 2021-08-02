@@ -46,10 +46,16 @@ class _CreateScreenState extends State<CreateScreen> {
     }
   }
 
+  // !
+  int? time;
+  String? ingredients;
+  String? procedure;
+
+  void createRecipe() {}
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    // ! Check
     return SingleChildScrollView(
       child: Container(
         height: screenSize.height - 112,
@@ -77,14 +83,21 @@ class _CreateScreenState extends State<CreateScreen> {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Time',
                         style: kCreateTextStyle,
                       ),
-                      SizedBox(height: 14),
-                      MyTextFormField(placeholder: '25 (minutes)'),
+                      SizedBox(height: 18),
+                      MyTextFormField(
+                        placeholder: '25 (minutes)',
+                        callback: (int? value) {
+                          setState(() {
+                            time = value;
+                          });
+                        },
+                      ),
                     ],
                   ),
                 )
@@ -109,15 +122,31 @@ class _CreateScreenState extends State<CreateScreen> {
                 ],
               ),
             ),
-            Text('Ingredients', style: kCreateTextStyle),
+            Text(
+              'Ingredients',
+              style: kCreateTextStyle,
+            ),
             MyTextFormField(
               placeholder: 'Ingredients',
               maxlines: 4,
+              callback: (String? value) {
+                setState(() {
+                  ingredients = value;
+                });
+              },
             ),
-            Text('Procedure', style: kCreateTextStyle),
+            Text(
+              'Procedure',
+              style: kCreateTextStyle,
+            ),
             MyTextFormField(
               placeholder: 'Procedure',
               maxlines: 4,
+              callback: (String? value) {
+                setState(() {
+                  procedure = value;
+                });
+              },
             ),
             Row(
               children: [
@@ -125,7 +154,14 @@ class _CreateScreenState extends State<CreateScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 40),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (time != null &&
+                            ingredients != null &&
+                            procedure != null &&
+                            choosenImagePath != null) {
+                          createRecipe();
+                        }
+                      },
                       child: Text('Create'),
                       style: kElevatedButtonStyles,
                     ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_chef/components/categories_chip.dart';
+import 'package:my_chef/components/chips_row.dart';
 import 'package:my_chef/components/recipe_card.dart';
 
 class RecipesScreen extends StatelessWidget {
@@ -70,28 +70,10 @@ class RecipesScreen extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CategoriesChip(
-                    label: 'All',
-                    isSelected: true,
-                  ),
-                  CategoriesChip(
-                    label: 'Food',
-                  ),
-                  CategoriesChip(
-                    label: 'Drinks',
-                  ),
-                  CategoriesChip(
-                    label: 'Italian',
-                  ),
-                  CategoriesChip(
-                    label: 'Mexican',
-                  ),
-                ],
-              ),
+            ChipsRow(
+              chipsLabel: ['All', 'Food', 'Drink', 'Italian', 'Mexican'],
+              defaultIndex: 0,
+              callback: () {},
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,

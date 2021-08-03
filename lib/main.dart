@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chef/constants.dart';
 import 'package:my_chef/models/mid_nav_bar.dart';
@@ -6,7 +7,13 @@ import 'package:my_chef/screens/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  // Ensure that Firebase is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize Firebase
+  await Firebase.initializeApp();
+  //
+
   runApp(
     MultiProvider(
       providers: [

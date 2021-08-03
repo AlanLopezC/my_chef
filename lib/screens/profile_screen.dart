@@ -4,6 +4,7 @@ import 'package:my_chef/components/middle_nav_bar_display.dart';
 
 class ProfileScreen extends StatelessWidget {
   // Use SilverAppBar
+  // ! Images to storage
 
   @override
   Widget build(BuildContext context) {

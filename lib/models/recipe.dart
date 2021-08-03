@@ -9,13 +9,13 @@ class Recipe {
     required this.procedure,
   });
 
-  final String image;
-  final String title;
-  final String description;
-  final String time;
-  final String ingredients;
-  final String procedure;
-  final List<String> categories;
+  final String? image;
+  final String? title;
+  final String? description;
+  final int? time;
+  final String? ingredients;
+  final String? procedure;
+  final List<String>? categories;
 
   bool _isLiked = false;
   //!
@@ -23,6 +23,7 @@ class Recipe {
   //!
   late String rating;
 
+  // !
   void toggleLike() {
     _isLiked = !_isLiked;
   }

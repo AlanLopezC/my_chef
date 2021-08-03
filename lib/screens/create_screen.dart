@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:my_chef/components/categories_chip.dart';
+import 'package:my_chef/components/chips_row.dart';
 import 'package:my_chef/components/my_text_form_field.dart';
 import 'package:my_chef/constants.dart';
+import 'package:my_chef/models/recipe.dart';
 
 class CreateScreen extends StatefulWidget {
   @override
@@ -12,22 +14,22 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  String? choosenImagePath;
-  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
 
   void chooseImage() async {
     // Pick an image
-    final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
-    if (file != null) {
+    final XFile? image =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
       setState(() {
-        choosenImagePath = file.path;
+        _image = image;
       });
     }
   }
 
   // ! Test
   Widget displayImage() {
-    if (choosenImagePath == null) {
+    if (_image == null) {
       return IconButton(
         onPressed: () => chooseImage(),
         icon: Icon(Icons.photo),
@@ -38,7 +40,7 @@ class _CreateScreenState extends State<CreateScreen> {
       return GestureDetector(
         onTap: () => chooseImage(),
         child: Image.file(
-          File(choosenImagePath!),
+          File(_image!.path),
           width: 60,
           fit: BoxFit.cover,
         ),
@@ -47,18 +49,71 @@ class _CreateScreenState extends State<CreateScreen> {
   }
 
   // !
-  int? time;
-  String? ingredients;
-  String? procedure;
+  int? _time;
+  String? _ingredients;
+  String? _procedure;
+  String? _title;
+  String? _description;
 
-  void createRecipe() {}
+  List<String> _categories = ['Food', ''];
+  final List<String> _categoriesList1 = ['Food', 'Drink'];
+  final List<String> _categoriesList2 = [
+    'Spanish',
+    'French',
+    'Italian',
+    'Mexican',
+    'Canadian'
+  ];
+
+  // var _isLiked;      no idea
+  // var _author;       auth
+
+  // var _avgRating;     firestore
+  // var _allRatings;    // Firestore
+
+  Future<void> createRecipe() async {
+    // ? guessing correct format
+    uploadImage('Jamie', _title);
+    String? _imageUrl;
+    try {
+      _imageUrl = await FirebaseStorage.instance
+          .ref('images/recipes/${'Jamie'}-$_title.png')
+          .getDownloadURL();
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+
+    Recipe recipe = Recipe(
+      time: _time,
+      ingredients: _ingredients,
+      procedure: _procedure,
+      title: _title,
+      description: _description,
+      image: _imageUrl,
+      categories: _categories,
+    );
+
+    // ? Firestore
+  }
+
+  Future<void> uploadImage(String? author, String? title) async {
+    if (_image == null) return;
+    File file = File(_image!.path);
+    try {
+      await FirebaseStorage.instance
+          .ref('images/recipes/$author-$title.png')
+          .putFile(file);
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+    // final screenSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
-        height: screenSize.height - 112,
+        // height: screenSize.height - 112,
         padding: EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,9 +147,9 @@ class _CreateScreenState extends State<CreateScreen> {
                       SizedBox(height: 18),
                       MyTextFormField(
                         placeholder: '25 (minutes)',
-                        callback: (int? value) {
+                        callback: (String value) {
                           setState(() {
-                            time = value;
+                            _time = int.parse(value);
                           });
                         },
                       ),
@@ -104,23 +159,22 @@ class _CreateScreenState extends State<CreateScreen> {
               ],
             ),
             Text('Categories', style: kCreateTextStyle),
-            Row(
-              children: [
-                CategoriesChip(label: 'Food'),
-                CategoriesChip(label: 'Drink')
-              ],
+            ChipsRow(
+              defaultIndex: 0,
+              chipsLabel: _categoriesList1,
+              callback: (int i) {
+                setState(() {
+                  _categories[0] = _categoriesList1[i];
+                });
+              },
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CategoriesChip(label: 'Italian'),
-                  CategoriesChip(label: 'Mexican'),
-                  CategoriesChip(label: 'American'),
-                  CategoriesChip(label: 'French'),
-                  CategoriesChip(label: 'Spanish'),
-                ],
-              ),
+            ChipsRow(
+              chipsLabel: _categoriesList2,
+              callback: (int i) {
+                setState(() {
+                  _categories[1] = _categoriesList2[i];
+                });
+              },
             ),
             Text(
               'Ingredients',
@@ -131,7 +185,7 @@ class _CreateScreenState extends State<CreateScreen> {
               maxlines: 4,
               callback: (String? value) {
                 setState(() {
-                  ingredients = value;
+                  _ingredients = value;
                 });
               },
             ),
@@ -144,7 +198,31 @@ class _CreateScreenState extends State<CreateScreen> {
               maxlines: 4,
               callback: (String? value) {
                 setState(() {
-                  procedure = value;
+                  _procedure = value;
+                });
+              },
+            ),
+            Text(
+              'Title',
+              style: kCreateTextStyle,
+            ),
+            MyTextFormField(
+              placeholder: 'Title',
+              callback: (String? value) {
+                setState(() {
+                  _title = value;
+                });
+              },
+            ),
+            Text(
+              'Description',
+              style: kCreateTextStyle,
+            ),
+            MyTextFormField(
+              placeholder: 'Description',
+              callback: (String? value) {
+                setState(() {
+                  _description = value;
                 });
               },
             ),
@@ -155,10 +233,14 @@ class _CreateScreenState extends State<CreateScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 40),
                     child: ElevatedButton(
                       onPressed: () {
-                        if (time != null &&
-                            ingredients != null &&
-                            procedure != null &&
-                            choosenImagePath != null) {
+                        // * Display error on screen
+                        if (_image != null &&
+                            _time != null &&
+                            _ingredients != null &&
+                            _title != null &&
+                            _description != null &&
+                            _procedure != null) {
+                          // Check if author != null
                           createRecipe();
                         }
                       },

@@ -245,7 +245,7 @@ class _CreateScreenState extends State<CreateScreen> {
                         }
                       },
                       child: Text('Create'),
-                      style: kElevatedButtonStyles,
+                      style: kElevatedButtonStyle,
                     ),
                   ),
                 ),

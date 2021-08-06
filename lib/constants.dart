@@ -7,7 +7,7 @@ final TextStyle kCreateTextStyle = TextStyle(
   fontWeight: FontWeight.w600,
 );
 
-final ButtonStyle kElevatedButtonStyles = ButtonStyle(
+final ButtonStyle kElevatedButtonStyle = ButtonStyle(
   padding: MaterialStateProperty.all(
     EdgeInsets.all(10),
   ),

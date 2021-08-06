@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:my_chef/constants.dart';
 import 'package:my_chef/models/mid_nav_bar.dart';
 import 'package:my_chef/models/navigation.dart';
-import 'package:my_chef/screens/home.dart';
+// import 'package:my_chef/screens/home.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_chef/screens/login_screen.dart';
+import 'package:my_chef/screens/register_screen.dart';
 import 'package:provider/provider.dart';
 
+// main() {
 Future<void> main() async {
   // Ensure that Firebase is initialized
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         primarySwatch: kPrimaryColor,
       ),
-      home: Home(),
+      home: RegisterScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

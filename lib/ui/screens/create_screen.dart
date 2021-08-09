@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:my_chef/components/chips_row.dart';
-import 'package:my_chef/components/my_text_form_field.dart';
-import 'package:my_chef/constants.dart';
-import 'package:my_chef/models/recipe.dart';
+import 'package:my_chef/domain/models/recipe.dart';
+import 'package:my_chef/ui/constants.dart';
+import 'package:my_chef/ui/widgets/chips_row.dart';
+import 'package:my_chef/ui/widgets/my_text_form_field.dart';
 
 class CreateScreen extends StatefulWidget {
   @override

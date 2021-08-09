@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_chef/components/login_text_field.dart';
-import 'package:my_chef/constants.dart';
+import 'package:my_chef/ui/constants.dart';
+import 'package:my_chef/ui/widgets/login_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   resetPassword() {
+    // ! Change
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.sendPasswordResetEmail(email: 'alan.ignacio@hotmail.com');
   }

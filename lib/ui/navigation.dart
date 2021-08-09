@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:my_chef/screens/create_screen.dart';
-import 'package:my_chef/screens/profile_screen.dart';
-import 'package:my_chef/screens/recipe_screen.dart';
+import 'package:my_chef/ui/screens/create_screen.dart';
+import 'package:my_chef/ui/screens/profile_screen.dart';
+import 'package:my_chef/ui/screens/recipe_screen.dart';
 
 class Navigation extends ChangeNotifier {
   int _index = 0;

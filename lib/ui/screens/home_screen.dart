@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_chef/components/costum_nav_bar.dart';
-import 'package:my_chef/models/navigation.dart';
+import 'package:my_chef/ui/navigation.dart';
+import 'package:my_chef/ui/widgets/costum_nav_bar.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {

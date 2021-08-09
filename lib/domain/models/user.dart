@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:my_chef/models/recipe.dart';
+import 'package:my_chef/domain/models/recipe.dart';
 
 class User {
   late int id;

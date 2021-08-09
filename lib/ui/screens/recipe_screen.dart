@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_chef/components/chips_row.dart';
-import 'package:my_chef/components/recipe_card.dart';
+import 'package:my_chef/ui/widgets/chips_row.dart';
+import 'package:my_chef/ui/widgets/recipe_card.dart';
 
 class RecipesScreen extends StatelessWidget {
   final List<Widget> items = [

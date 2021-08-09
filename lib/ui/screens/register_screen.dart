@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:my_chef/components/login_text_field.dart';
-import 'package:my_chef/constants.dart';
+import 'package:my_chef/ui/constants.dart';
+import 'package:my_chef/ui/widgets/login_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);

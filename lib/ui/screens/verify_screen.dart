@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_chef/screens/home_screen.dart';
+import 'package:my_chef/ui/screens/home_screen.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -10,16 +10,15 @@ class VerifyScreen extends StatefulWidget {
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  User? user;
-  Timer? timer;
-  // TODO: Change
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _user;
+  Timer? _timer;
 
   @override
   void initState() {
-    user = auth.currentUser;
+    _user = _auth.currentUser;
 
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       checkEmailVerified();
     });
     super.initState();
@@ -27,15 +26,15 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   void dispose() {
-    timer!.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 
   Future<void> checkEmailVerified() async {
-    user = auth.currentUser;
-    await user!.reload();
-    if (user!.emailVerified) {
-      timer!.cancel();
+    _user = _auth.currentUser;
+    await _user!.reload();
+    if (_user!.emailVerified) {
+      _timer!.cancel();
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
     }

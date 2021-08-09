@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_chef/components/middle_nav_bar.dart';
-import 'package:my_chef/components/middle_nav_bar_display.dart';
+import 'package:my_chef/ui/widgets/middle_nav_bar.dart';
+import 'package:my_chef/ui/widgets/middle_nav_bar_display.dart';
 
 class ProfileScreen extends StatelessWidget {
   // Use SilverAppBar

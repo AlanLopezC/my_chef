@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:my_chef/constants.dart';
 import 'package:my_chef/models/mid_nav_bar.dart';
 import 'package:my_chef/models/navigation.dart';
-// import 'package:my_chef/screens/home.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_chef/screens/home_screen.dart';
 import 'package:my_chef/screens/login_screen.dart';
 import 'package:my_chef/screens/register_screen.dart';
+import 'package:my_chef/screens/verify_screen.dart';
 import 'package:provider/provider.dart';
 
 // main() {
@@ -41,7 +42,13 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         primarySwatch: kPrimaryColor,
       ),
-      home: RegisterScreen(),
+      initialRoute: '/login',
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/verify': (context) => VerifyScreen(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

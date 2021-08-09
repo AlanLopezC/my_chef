@@ -3,7 +3,7 @@ import 'package:my_chef/components/costum_nav_bar.dart';
 import 'package:my_chef/models/navigation.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Navigation navigation = Provider.of<Navigation>(context);
     //

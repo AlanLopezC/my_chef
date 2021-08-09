@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chef/components/login_text_field.dart';
 import 'package:my_chef/constants.dart';
@@ -10,10 +11,34 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String? email;
-  String? password;
+  String _email = '';
+  String _password = '';
 
-  void checkAuth() {}
+  Future<void> checkAuth(String email, String password) async {
+    try {
+      FirebaseAuth auth = FirebaseAuth.instance;
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+
+      User? user = auth.currentUser;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+        Navigator.pushReplacementNamed(context, '/verify');
+      } else {
+        Navigator.pushReplacementNamed(context, '/');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
+
+  resetPassword() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.sendPasswordResetEmail(email: 'alan.ignacio@hotmail.com');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'ej@gmail.com',
                           callback: (String value) {
                             setState(() {
-                              email = value;
+                              _email = value;
                             });
                           },
                         ),
@@ -114,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                           callback: (String value) {
                             setState(() {
-                              password = value;
+                              _password = value;
                             });
                           },
                         ),
@@ -128,12 +153,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 12,
                               ),
                             ),
-                            Text(
-                              'Reset password',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(0xffe75841),
-                                fontWeight: FontWeight.w600,
+                            TextButton(
+                              // ! Change padding
+                              onPressed: () => resetPassword(),
+                              child: Text(
+                                'Reset password',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xffe75841),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],
@@ -145,9 +174,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (email != null && password != null) {
-                                      // ? try ? nav ?
-                                      checkAuth();
+                                    if (_email != '' && _password != '') {
+                                      checkAuth(_email, _password);
                                     }
                                   },
                                   style: kElevatedButtonStyle.copyWith(
@@ -176,12 +204,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 12,
                               ),
                             ),
-                            Text(
-                              'Create one',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(0xffe75841),
-                                fontWeight: FontWeight.w600,
+                            TextButton(
+                              // !Change padding
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, '/register');
+                              },
+                              child: Text(
+                                'Create one',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xffe75841),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],

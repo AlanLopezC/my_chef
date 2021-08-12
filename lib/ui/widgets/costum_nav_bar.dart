@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-import 'package:my_chef/ui/navigation.dart';
+import 'package:my_chef/ui/provider/navigation.dart';
 import 'package:provider/provider.dart';
 
 class CostumNavBar extends StatelessWidget {

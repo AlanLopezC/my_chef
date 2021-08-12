@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_chef/data/datasources/firebase_login.dart';
 import 'package:my_chef/ui/constants.dart';
 import 'package:my_chef/ui/widgets/login_text_field.dart';
 
@@ -15,23 +16,13 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password = '';
 
   Future<void> checkAuth(String email, String password) async {
-    try {
-      FirebaseAuth auth = FirebaseAuth.instance;
-      await auth.signInWithEmailAndPassword(email: email, password: password);
+    User? user = await FirebaseLogin().login(email: email, password: password);
 
-      User? user = auth.currentUser;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-        Navigator.pushReplacementNamed(context, '/verify');
-      } else {
-        Navigator.pushReplacementNamed(context, '/');
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification();
+      Navigator.pushReplacementNamed(context, '/verify');
+    } else {
+      Navigator.pushReplacementNamed(context, '/');
     }
   }
 
@@ -175,7 +166,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (_email != '' && _password != '') {
+                                    if (_email.isNotEmpty &&
+                                        _password.isNotEmpty) {
                                       checkAuth(_email, _password);
                                     }
                                   },

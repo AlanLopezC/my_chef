@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_chef/ui/screens/home_screen.dart';
+import 'package:my_chef/ui/screens/home/home_screen.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override

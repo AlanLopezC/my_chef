@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_chef/ui/mid_nav_bar.dart';
+import 'package:my_chef/ui/provider/mid_nav_bar.dart';
 import 'package:my_chef/ui/widgets/recipe_tile.dart';
 import 'package:provider/provider.dart';
 

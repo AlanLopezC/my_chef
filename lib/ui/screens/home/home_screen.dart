@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_chef/ui/navigation.dart';
+import 'package:my_chef/ui/provider/navigation.dart';
 import 'package:my_chef/ui/widgets/costum_nav_bar.dart';
 import 'package:provider/provider.dart';
 

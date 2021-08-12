@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:my_chef/data/datasources/firebase_register.dart';
 import 'package:my_chef/ui/constants.dart';
 import 'package:my_chef/ui/widgets/login_text_field.dart';
 
@@ -16,29 +16,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _password = '';
   String _repeatedPassword = '';
 
-  Future<void> registerUser(
-      String email, String password, String repeatedPassword) async {
-    try {
-      final FirebaseAuth auth = FirebaseAuth.instance;
-      await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-
-      User? user = auth.currentUser;
-
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-      }
-      Navigator.pushReplacementNamed(context, '/verify');
-    } on FirebaseAuthException catch (e) {
-      // ! Handle errors
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
+  void registerUser(String email, String password) {
+    FirebaseRegister().register(email: email, password: password);
+    // !What if user already exists
+    Navigator.pushReplacementNamed(context, '/verify');
   }
 
   @override
@@ -177,11 +158,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Expanded(
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      if (_email != '' &&
-                                          _password != '' &&
+                                      if (_email.isNotEmpty &&
+                                          _password.isNotEmpty &&
                                           _password == _repeatedPassword) {
-                                        registerUser(_email, _password,
-                                            _repeatedPassword);
+                                        registerUser(_email, _password);
                                       }
                                     },
                                     style: kElevatedButtonStyle.copyWith(

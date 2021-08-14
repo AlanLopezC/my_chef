@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class LoginTextField extends StatelessWidget {
-  const LoginTextField({
+class AccountTextField extends StatelessWidget {
+  const AccountTextField({
     required this.hintText,
     required this.callback,
     this.obscureText = false,

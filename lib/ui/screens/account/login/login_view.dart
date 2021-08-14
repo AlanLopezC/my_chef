@@ -1,36 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_chef/data/datasources/firebase_login.dart';
-import 'package:my_chef/ui/constants.dart';
-import 'package:my_chef/ui/widgets/login_text_field.dart';
+import 'package:my_chef/ui/widgets/account_button.dart';
+import 'package:my_chef/ui/widgets/account_text_field.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginView extends StatelessWidget {
+  LoginView({
+    required this.updateEmail,
+    required this.updatePassword,
+    required this.onPressedButton,
+  });
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  String _email = '';
-  String _password = '';
-
-  Future<void> checkAuth(String email, String password) async {
-    User? user = await FirebaseLogin().login(email: email, password: password);
-
-    if (user != null && !user.emailVerified) {
-      await user.sendEmailVerification();
-      Navigator.pushReplacementNamed(context, '/verify');
-    } else {
-      Navigator.pushReplacementNamed(context, '/');
-    }
-  }
-
-  resetPassword() {
-    // ! Change
-    FirebaseAuth auth = FirebaseAuth.instance;
-    auth.sendPasswordResetEmail(email: 'alan.ignacio@hotmail.com');
-  }
+  final Function updateEmail;
+  final Function updatePassword;
+  final Function onPressedButton;
 
   @override
   Widget build(BuildContext context) {
@@ -110,13 +91,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        LoginTextField(
+                        AccountTextField(
                           hintText: 'ej@gmail.com',
-                          callback: (String value) {
-                            setState(() {
-                              _email = value;
-                            });
-                          },
+                          callback: (String value) => updateEmail(value),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -126,14 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        LoginTextField(
+                        AccountTextField(
                           hintText: '********',
                           obscureText: true,
-                          callback: (String value) {
-                            setState(() {
-                              _password = value;
-                            });
-                          },
+                          callback: (String value) => updatePassword(value),
                         ),
                         SizedBox(height: 10),
                         Row(
@@ -147,7 +120,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             TextButton(
                               // ! Change padding
-                              onPressed: () => resetPassword(),
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  '/reset_pass',
+                                );
+                              },
                               child: Text(
                                 'Reset password',
                                 style: TextStyle(
@@ -159,34 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 30.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_email.isNotEmpty &&
-                                        _password.isNotEmpty) {
-                                      checkAuth(_email, _password);
-                                    }
-                                  },
-                                  style: kElevatedButtonStyle.copyWith(
-                                    backgroundColor: MaterialStateProperty.all(
-                                      Color(0xfff0622b),
-                                    ),
-                                    textStyle: MaterialStateProperty.all(
-                                      TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Text('Log in'),
-                                ),
-                              ),
-                            ],
-                          ),
+                        AccountButton(
+                          label: 'Log in',
+                          onPressed: onPressedButton,
                         ),
                         Column(
                           children: [

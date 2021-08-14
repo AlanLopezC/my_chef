@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:my_chef/data/datasources/firebase_register.dart';
-import 'package:my_chef/ui/constants.dart';
-import 'package:my_chef/ui/widgets/login_text_field.dart';
+import 'package:my_chef/ui/widgets/account_button.dart';
+import 'package:my_chef/ui/widgets/account_text_field.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterView extends StatelessWidget {
+  RegisterView({
+    required this.updateEmail,
+    required this.updatePassword,
+    required this.updateRepeatedPass,
+    required this.onPressedButton,
+  });
 
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-  String _email = '';
-  String _password = '';
-  String _repeatedPassword = '';
-
-  void registerUser(String email, String password) {
-    FirebaseRegister().register(email: email, password: password);
-    // !What if user already exists
-    Navigator.pushReplacementNamed(context, '/verify');
-  }
+  final Function updateEmail;
+  final Function updatePassword;
+  final Function updateRepeatedPass;
+  final Function onPressedButton;
 
   @override
   Widget build(BuildContext context) {
@@ -108,13 +102,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          LoginTextField(
+                          AccountTextField(
                             hintText: 'ej@gmail.com',
-                            callback: (String value) {
-                              setState(() {
-                                _email = value;
-                              });
-                            },
+                            callback: (String value) => updateEmail(value),
                           ),
                           SizedBox(height: 10),
                           Text(
@@ -124,14 +114,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          LoginTextField(
+                          AccountTextField(
                             hintText: '********',
                             obscureText: true,
-                            callback: (String value) {
-                              setState(() {
-                                _password = value;
-                              });
-                            },
+                            callback: (String value) => updatePassword(value),
                           ),
                           SizedBox(height: 10),
                           Text(
@@ -141,47 +127,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          LoginTextField(
+                          AccountTextField(
                             hintText: '********',
                             obscureText: true,
-                            callback: (String value) {
-                              setState(() {
-                                _repeatedPassword = value;
-                              });
-                            },
+                            callback: (String value) =>
+                                updateRepeatedPass(value),
                           ),
                           SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 30.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (_email.isNotEmpty &&
-                                          _password.isNotEmpty &&
-                                          _password == _repeatedPassword) {
-                                        registerUser(_email, _password);
-                                      }
-                                    },
-                                    style: kElevatedButtonStyle.copyWith(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        Color(0xfff0622b),
-                                      ),
-                                      textStyle: MaterialStateProperty.all(
-                                        TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          letterSpacing: .5,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Text('Register'),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          AccountButton(
+                            label: 'Register',
+                            onPressed: onPressedButton,
                           ),
                           Column(
                             children: [

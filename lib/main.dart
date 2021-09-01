@@ -1,16 +1,21 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:my_chef/app/screens/account/new_user/new_user_controller.dart';
 import 'package:my_chef/data/datasources/firebase_auth_impl.dart';
-import 'package:my_chef/domain/repositories/auth/auth_repository.dart';
-import 'package:my_chef/ui/constants.dart';
-import 'package:my_chef/ui/provider/mid_nav_bar.dart';
-import 'package:my_chef/ui/provider/navigation.dart';
-import 'package:my_chef/ui/screens/account/login/login_controller.dart';
-import 'package:my_chef/ui/screens/account/register/register_controller.dart';
-import 'package:my_chef/ui/screens/account/reset_pass/reset_pass_controller.dart';
-import 'package:my_chef/ui/screens/home/home_screen.dart';
-import 'package:my_chef/ui/screens/account/verify/verify_controller.dart';
+import 'package:my_chef/data/datasources/firebase_firestore_impl.dart';
+import 'package:my_chef/data/services/firebase_storage_impl.dart';
+import 'package:my_chef/domain/repositories/auth_repository.dart';
+import 'package:my_chef/app/constants.dart';
+import 'package:my_chef/app/screens/home/profile/provider/mid_nav_bar.dart';
+import 'package:my_chef/app/screens/home/provider/navigation.dart';
+import 'package:my_chef/app/screens/account/login/login_controller.dart';
+import 'package:my_chef/app/screens/account/register/register_controller.dart';
+import 'package:my_chef/app/screens/account/reset_pass/reset_pass_controller.dart';
+import 'package:my_chef/app/screens/home/home_screen.dart';
+import 'package:my_chef/app/screens/account/verify/verify_controller.dart';
+import 'package:my_chef/domain/repositories/database_repository.dart';
+import 'package:my_chef/domain/services/storage_service.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -32,6 +37,12 @@ Future<void> main() async {
         Provider<AuthRepository>(
           create: (_) => FirebaseAuthImpl(),
         ),
+        Provider<DatabaseRepository>(
+          create: (_) => FirebaseFirestoreImpl(),
+        ),
+        Provider<StorageService>(
+          create: (_) => FirebaseStorageImpl(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -47,13 +58,14 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         primarySwatch: kPrimaryColor,
       ),
-      initialRoute: '/login',
+      initialRoute: '/',
       routes: {
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginController(),
         '/register': (context) => RegisterController(),
         '/verify': (context) => VerifyController(),
         '/reset_pass': (context) => ResetPassController(),
+        '/new_user': (context) => NewUserController(),
       },
       debugShowCheckedModeBanner: false,
     );

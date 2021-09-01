@@ -1,0 +1,3 @@
+class ImagePickerImpl {
+  static dos() {}
+}

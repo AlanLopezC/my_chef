@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:my_chef/domain/repositories/auth/auth_repository.dart';
+import 'package:my_chef/domain/repositories/auth_repository.dart';
 
 class FirebaseAuthImpl implements AuthRepository {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -31,7 +31,7 @@ class FirebaseAuthImpl implements AuthRepository {
   }
 
   @override
-  Future<void> register(
+  Future<String?> register(
       {required String email, required String password}) async {
     try {
       await _auth.createUserWithEmailAndPassword(
@@ -42,12 +42,7 @@ class FirebaseAuthImpl implements AuthRepository {
         await verifyEmail(user: user);
       }
     } on FirebaseAuthException catch (e) {
-      // ! Handle errors
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      return e.code;
     } catch (e) {
       print(e);
     }
@@ -55,7 +50,11 @@ class FirebaseAuthImpl implements AuthRepository {
 
   @override
   Future<void> verifyEmail({required User user}) async {
-    await user.sendEmailVerification();
+    try {
+      await user.sendEmailVerification();
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -81,6 +80,14 @@ class FirebaseAuthImpl implements AuthRepository {
     User? user = _auth.currentUser;
     if (user != null) {
       return user.email;
+    }
+  }
+
+  @override
+  String? currentUserId() {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      return user.uid;
     }
   }
 

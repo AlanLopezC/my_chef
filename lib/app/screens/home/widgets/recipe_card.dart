@@ -13,7 +13,7 @@ class RecipeCard extends StatelessWidget {
   });
 
   final String image;
-  // ! Overflow title
+  // ! Overflow title and author
   final String title;
   final String author;
   final String rating;
@@ -145,17 +145,3 @@ class RecipeCard extends StatelessWidget {
     );
   }
 }
-
-// Container(
-//       decoration: BoxDecoration(
-//         border: Border.all(color: Color(0xffeeeeee), width: 2.0),
-//         color: Colors.white38,
-//         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.white10,
-//             blurRadius: 4,
-//             spreadRadius: 2,
-//             offset: Offset(0, 2),
-//           ),
-//         ],

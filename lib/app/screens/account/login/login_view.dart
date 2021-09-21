@@ -18,6 +18,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ! Do this with all account views
+    // ! rounded_loading_button pluggin
     return WillPopScope(
       onWillPop: onBackPressed,
       child: Scaffold(

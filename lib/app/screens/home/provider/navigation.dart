@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:my_chef/app/screens/home/create/create_controller.dart';
-import 'package:my_chef/app/screens/home/profile/profile_screen.dart';
-import 'package:my_chef/app/screens/home/recipes/recipe_screen.dart';
+import 'package:my_chef/app/screens/home/feed/feed_view.dart';
+import 'package:my_chef/app/screens/home/profile/profile_controller.dart';
 
 class Navigation extends ChangeNotifier {
   int _index = 0;
 
-  List screens = [
-    RecipesScreen(),
+  List<Widget> screens = [
+    FeedView(),
     CreateController(),
-    ProfileScreen(),
+    ProfileController(),
   ];
 
   int getIndex() {
@@ -21,7 +21,7 @@ class Navigation extends ChangeNotifier {
     notifyListeners();
   }
 
-  dynamic getCurrentScreen() {
-    return screens[_index];
-  }
+  // Widget getCurrentScreen() {
+  //   return screens[_index];
+  // }
 }

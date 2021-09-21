@@ -52,8 +52,6 @@ class _CreateControllerState extends State<CreateController> {
         _title != null &&
         _description != null &&
         _procedure != null) {
-      // Check if author != null
-
       CreateRecipe.createRecipe(
         image: _image,
         title: _title ?? "",
@@ -64,10 +62,11 @@ class _CreateControllerState extends State<CreateController> {
         categories: _selectedCategories,
         context: context,
       );
+      // Todo: erase all text (check flash_chat)
     }
   }
 
-  // ? Is there a better way ?
+  // ? Dependency Injection: ImagePicker, Compress
   Widget displayImage() {
     if (_image == null) {
       return IconButton(
@@ -98,6 +97,8 @@ class _CreateControllerState extends State<CreateController> {
       });
     }
   }
+  // ! Compress image flutter_image_compress or
+  // ! change size in firestore with firebase functions js
 
   @override
   Widget build(BuildContext context) {

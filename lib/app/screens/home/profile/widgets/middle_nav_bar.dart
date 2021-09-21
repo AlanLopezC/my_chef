@@ -11,7 +11,7 @@ class MiddleNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MidNavBar midNavBar = Provider.of<MidNavBar>(context);
-
+    // ! Use titles variable
     return Container(
       child: Column(
         children: [

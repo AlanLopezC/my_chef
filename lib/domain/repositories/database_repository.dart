@@ -13,6 +13,7 @@ abstract class DatabaseRepository {
   Future<bool?> validateUsername(String username);
 
   void uploadRecipe(Recipe recipe);
+  Future<List?> retrieveRecipes(String? email);
 
   Future<List?> read();
 }

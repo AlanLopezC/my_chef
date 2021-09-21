@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_chef/app/screens/account/new_user/new_user_view.dart';
-import 'package:my_chef/domain/repositories/auth_repository.dart';
 import 'package:my_chef/domain/repositories/database_repository.dart';
+import 'package:my_chef/domain/usecases/create_user.dart';
 import 'package:provider/provider.dart';
 
 class NewUserController extends StatefulWidget {
@@ -16,13 +16,13 @@ class _NewUserControllerState extends State<NewUserController> {
 
   String _name = '';
   String _username = '';
-  String _age = '';
+  int _age = 0;
   String _country = '';
   bool _isUsernameValid = false;
 
   void updateName(String value) => _name = value;
   void updateUsername(String value) => _username = value;
-  void updateAge(String value) => _age = value;
+  void updateAge(String value) => _age = int.parse(value);
   void updateCountry(String value) => _country = value;
 
   String? nameValidator(value) {
@@ -57,26 +57,12 @@ class _NewUserControllerState extends State<NewUserController> {
     }
   }
 
-  void createUser() {
-    // ? works but could be better
-
-    final AuthRepository auth = context.read<AuthRepository>();
-    final email = auth.currentUserEmail();
-    final uid = auth.currentUserId();
-
-    final DatabaseRepository firestore = context.read<DatabaseRepository>();
-
-    Map<String, dynamic> document = {
-      'uid': uid,
-      'name': _name,
-      'username': _username,
-      'email': email,
-      'age': _age,
-      'country': _country,
-    };
-
-    firestore.createDocument('/users', _username, document);
-  }
+  void createUser() => CreateUser.createUser(
+      context: context,
+      name: _name,
+      username: _username,
+      age: _age,
+      country: _country);
 
   // ! Check after leaving textfield
   Future<void> validateUsername(String username) async {

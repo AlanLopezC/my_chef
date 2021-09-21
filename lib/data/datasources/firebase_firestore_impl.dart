@@ -55,7 +55,7 @@ class FirebaseFirestoreImpl implements DatabaseRepository {
     return querySnapshot.docs.isEmpty;
   }
 
-  // Example
+  //? Example
   Future<List?> read() async {
     QuerySnapshot querySnapshot;
     List docs = [];
@@ -103,7 +103,31 @@ class FirebaseFirestoreImpl implements DatabaseRepository {
       "image": recipe.image,
       "categories": recipe.categories,
       "recipeID": id,
+      'timestamp': FieldValue.serverTimestamp(),
     };
     createDocument(collectionRoute, id, document);
+  }
+
+  @override
+  Future<List?> retrieveRecipes(String? email) async {
+    QuerySnapshot querySnapshot;
+    List docs = [];
+    try {
+      querySnapshot = await _firestore
+          .collection('recipes')
+          .where("author", isEqualTo: email)
+          .orderBy('timestamp')
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var doc in querySnapshot.docs.toList()) {
+          // Map a = {"name": doc['name']};
+          docs.add(doc.data());
+        }
+        return docs;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
